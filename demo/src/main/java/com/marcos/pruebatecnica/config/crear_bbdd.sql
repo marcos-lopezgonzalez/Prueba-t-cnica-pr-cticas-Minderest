@@ -14,14 +14,14 @@ CREATE TABLE producto (
     FOREIGN KEY (id_cliente) REFERENCES cliente(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-CREATE TABLE producto_equivalente (
+CREATE TABLE equivalencia_producto (
     id_cliente_1 VARCHAR(50) NOT NULL,
     nombre_producto_1 VARCHAR(100) NOT NULL,
     id_cliente_2 VARCHAR(50) NOT NULL,
     nombre_producto_2 VARCHAR(100) NOT NULL,
     PRIMARY KEY (id_cliente_1, nombre_producto_1, id_cliente_2, nombre_producto_2),
-    FOREIGN KEY (id_cliente_1, nombre_producto_1) REFERENCES producto_cliente(id_cliente, nombre) ON DELETE CASCADE,
-    FOREIGN KEY (id_cliente_2, nombre_producto_2) REFERENCES producto_cliente(id_cliente, nombre) ON DELETE CASCADE
+    FOREIGN KEY (id_cliente_1, nombre_producto_1) REFERENCES producto(id_cliente, nombre) ON DELETE CASCADE,
+    FOREIGN KEY (id_cliente_2, nombre_producto_2) REFERENCES producto(id_cliente, nombre) ON DELETE CASCADE
 );
 
 INSERT INTO cliente (id, nombre) VALUES
