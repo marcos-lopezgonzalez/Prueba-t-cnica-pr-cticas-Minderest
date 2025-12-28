@@ -131,4 +131,56 @@ public class ProductoService {
 
         return existe;
     }
+
+    public static List<Producto> buscarProductosEquivalentes(Producto producto) {
+        List<Producto> listaProductosEquivalentes = new ArrayList<Producto>();
+
+        String sql1 = "SELECT id_cliente_2, nombre_producto_2 FROM equivalencia_producto " +
+                "WHERE id_cliente_1 = ? AND nombre_producto_1 = ?";
+
+        String sql2 = "SELECT id_cliente_1, nombre_producto_1 FROM equivalencia_producto " +
+                "WHERE id_cliente_2 = ? AND nombre_producto_2 = ?";
+
+        try {
+            Connection conn = BBDD.getConnection();
+            PreparedStatement statement1 = conn.prepareStatement(sql1);
+
+            statement1.setString(1, producto.getId_cliente());
+            statement1.setString(2, producto.getNombre());
+
+            ResultSet rs1 = statement1.executeQuery();
+
+            while (rs1.next()) {
+                Producto productoEquivalente = new Producto(rs1.getString("nombre_producto_2"),
+                        rs1.getString("id_cliente_2"));
+                listaProductosEquivalentes.add(productoEquivalente);
+            }
+
+            rs1.close();
+            statement1.close();
+
+            PreparedStatement statement2 = conn.prepareStatement(sql2);
+
+            statement2.setString(1, producto.getId_cliente());
+            statement2.setString(2, producto.getNombre());
+
+            ResultSet rs2 = statement2.executeQuery();
+
+            while (rs2.next()) {
+                Producto productoEquivalente = new Producto(rs2.getString("nombre_producto_1"),
+                        rs2.getString("id_cliente_1"));
+                listaProductosEquivalentes.add(productoEquivalente);
+            }
+
+            rs2.close();
+            statement2.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar productos equivalentes: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return listaProductosEquivalentes;
+    }
 }

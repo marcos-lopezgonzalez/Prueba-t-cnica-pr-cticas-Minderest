@@ -33,6 +33,7 @@ public class Main {
                     insertarProducto();
                     break;
                 case 2:
+                    mostrarProductosEquivalentes();
                     break;
                 case 3:
                     establecerRelacionEquivalencia();
@@ -86,6 +87,41 @@ public class Main {
         Producto nuevoProducto = new Producto(nombreProducto, idCliente);
 
         ProductoService.insertarProducto(nuevoProducto);
+    }
+
+    private static void mostrarProductosEquivalentes() {
+        List<Producto> listaProductos = ProductoService.obtenerProductos();
+
+        mostrarProductos(listaProductos);
+        System.out.println("\nElige 1 producto (introduce el número correspondiente):");
+
+        System.out.print("Producto: ");
+        String input1 = scanner.nextLine();
+
+        int num;
+
+        try {
+            num = Integer.parseInt(input1);
+        } catch (NumberFormatException e) {
+            System.out.println("\nError: Debes introducir números válidos.");
+            return;
+        }
+
+        if (num < 1 || num > listaProductos.size()) {
+            System.out.println("\nError: Debes elegir un número dentro del rango de productos.");
+            return;
+        }
+
+        Producto producto = listaProductos.get(num - 1);
+
+        List<Producto> listaProductosEquivalentes = ProductoService.buscarProductosEquivalentes(producto);
+
+        if(listaProductosEquivalentes.size() == 0) {
+            System.out.println("\nNo existen productos equivalentes a este...");
+        } else {
+            System.out.println("\nMostrando productos equivalentes");
+            mostrarProductos(listaProductosEquivalentes);
+        }
     }
 
     private static void establecerRelacionEquivalencia() {
