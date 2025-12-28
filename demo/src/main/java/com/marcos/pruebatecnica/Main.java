@@ -160,6 +160,11 @@ public class Main {
         Producto producto1 = listaProductos.get(num1 - 1);
         Producto producto2 = listaProductos.get(num2 - 1);
 
+        if (producto1.getId_cliente().equals(producto2.getId_cliente())) {
+            System.out.println("\nError: No se puede establecer una relación de equivalencia entre productos del mismo cliente.");
+            return;
+        }
+
         ProductoService.establecerRelacionEquivalencia(producto1, producto2);
     }
 
