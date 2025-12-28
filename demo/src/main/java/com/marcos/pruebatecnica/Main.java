@@ -35,12 +35,13 @@ public class Main {
                 case 2:
                     break;
                 case 3:
+                    establecerRelacionEquivalencia();
                     break;
                 case 4:
                     mostrarClientes();
                     break;
                 case 5:
-                    mostrarProductos();
+                    mostrarProductos(ProductoService.obtenerProductos());
                     break;
                 case 6:
                     System.out.println("\n¡Hasta luego!");
@@ -87,24 +88,61 @@ public class Main {
         ProductoService.insertarProducto(nuevoProducto);
     }
 
+    private static void establecerRelacionEquivalencia() {
+        List<Producto> listaProductos = ProductoService.obtenerProductos();
+
+        mostrarProductos(listaProductos);
+        System.out.println("\nElige 2 productos (introduce el número correspondiente):");
+
+        System.out.print("Primer producto: ");
+        String input1 = scanner.nextLine();
+
+        System.out.print("Segundo producto: ");
+        String input2 = scanner.nextLine();
+
+        int num1, num2;
+
+        try {
+            num1 = Integer.parseInt(input1);
+            num2 = Integer.parseInt(input2);
+        } catch (NumberFormatException e) {
+            System.out.println("\nError: Debes introducir números válidos.");
+            return;
+        }
+
+        if (num1 == num2) {
+            System.out.println("\nError: No puedes seleccionar el mismo producto dos veces.");
+            return;
+        }
+
+        if (num1 < 1 || num1 > listaProductos.size() ||
+                num2 < 1 || num2 > listaProductos.size()) {
+            System.out.println("\nError: Debes elegir un número dentro del rango de productos.");
+            return;
+        }
+
+        Producto producto1 = listaProductos.get(num1 - 1);
+        Producto producto2 = listaProductos.get(num2 - 1);
+
+        ProductoService.establecerRelacionEquivalencia(producto1, producto2);
+    }
+
     private static void mostrarClientes() {
         List<Cliente> listaClientes = ClienteService.obtenerClientes();
 
         System.out.println("\nLista de clientes");
         System.out.println("------------------");
         for (int i = 0; i < listaClientes.size(); i++) {
-            System.out.println("ID: " + listaClientes.get(i).getId() +
+            System.out.println(i + 1 + " - " + "ID: " + listaClientes.get(i).getId() +
                     " || NOMBRE: " + listaClientes.get(i).getNombre());
         }
     }
 
-    private static void mostrarProductos() {
-        List<Producto> listaProductos = ProductoService.obtenerProductos();
-
+    private static void mostrarProductos(List<Producto> listaProductos) {
         System.out.println("\nLista de productos");
         System.out.println("------------------");
         for (int i = 0; i < listaProductos.size(); i++) {
-            System.out.println("ID CLIENTE: " + listaProductos.get(i).getId_cliente() +
+            System.out.println(i + 1 + " - " + "ID CLIENTE: " + listaProductos.get(i).getId_cliente() +
                     " || NOMBRE: " + listaProductos.get(i).getNombre());
         }
     }
