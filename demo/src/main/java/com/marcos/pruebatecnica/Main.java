@@ -115,7 +115,7 @@ public class Main {
 
         List<Producto> listaProductosEquivalentes = ProductoService.buscarProductosEquivalentes(producto);
 
-        if(listaProductosEquivalentes.size() == 0) {
+        if (listaProductosEquivalentes.size() == 0) {
             System.out.println("\nNo existen productos equivalentes a este...");
         } else {
             System.out.println("\nMostrando productos equivalentes");
@@ -126,8 +126,8 @@ public class Main {
     private static void establecerRelacionEquivalencia() {
         List<Producto> listaProductos = ProductoService.obtenerProductos();
 
-        if(listaProductos.size() < 2) {
-            System.out.println("Error: Todavía no hay suficientes productos para esta función");
+        if (listaProductos.size() < 2) {
+            System.out.println("\nError: Todavía no hay suficientes productos para esta función");
             return;
         }
 
@@ -165,7 +165,8 @@ public class Main {
         Producto producto2 = listaProductos.get(num2 - 1);
 
         if (producto1.getId_cliente().equals(producto2.getId_cliente())) {
-            System.out.println("\nError: No se puede establecer una relación de equivalencia entre productos del mismo cliente.");
+            System.out.println(
+                    "\nError: No se puede establecer una relación de equivalencia entre productos del mismo cliente.");
             return;
         }
 
@@ -175,8 +176,8 @@ public class Main {
     private static void mostrarClientes() {
         List<Cliente> listaClientes = ClienteService.obtenerClientes();
 
-        if(listaClientes.size() == 0) {
-            System.out.println("Error: No existen clientes...");
+        if (listaClientes.size() == 0) {
+            System.out.println("\nError: No existen clientes...");
             return;
         }
 
@@ -189,8 +190,8 @@ public class Main {
     }
 
     private static void mostrarProductos(List<Producto> listaProductos) {
-        if(listaProductos.size() == 0) {
-            System.out.println("Error: No existen productos...");
+        if (listaProductos.size() == 0) {
+            System.out.println("\nError: No existen productos...");
             return;
         }
 

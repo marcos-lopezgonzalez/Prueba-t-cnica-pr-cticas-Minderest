@@ -31,7 +31,7 @@ public class ClienteService {
             conn.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al comprobar si existe el cliente: " + e.getMessage());
+            System.out.println("\nError al comprobar si existe el cliente: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -59,7 +59,7 @@ public class ClienteService {
             conn.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al mostrar productos: " + e.getMessage());
+            System.out.println("\nError al mostrar clientes: " + e.getMessage());
             e.printStackTrace();
         }
 

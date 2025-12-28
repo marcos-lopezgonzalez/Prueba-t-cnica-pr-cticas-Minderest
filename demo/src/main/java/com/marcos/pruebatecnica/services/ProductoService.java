@@ -14,7 +14,12 @@ public class ProductoService {
 
     public static void insertarProducto(Producto producto) {
         if (!ClienteService.existeCliente(producto.getId_cliente())) {
-            System.out.println("Ese cliente no existe...");
+            System.out.println("\nEse cliente no existe...");
+            return;
+        }
+
+        if (existeProductoEnCliente(producto)) {
+            System.out.println("\nError: Ya existe un producto con ese nombre para ese cliente.");
             return;
         }
 
@@ -30,12 +35,41 @@ public class ProductoService {
             statement.close();
             conn.close();
 
-            System.out.println("Producto añadido correctamente");
+            System.out.println("\nProducto añadido correctamente");
 
         } catch (SQLException e) {
-            System.out.println("Error al insertar el producto: " + e.getMessage());
+            System.out.println("\nError al insertar el producto: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private static boolean existeProductoEnCliente(Producto producto) {
+        String sql = "SELECT COUNT(*) FROM producto WHERE id_cliente = ? AND nombre = ?";
+        boolean existe = false;
+
+        try {
+            Connection conn = BBDD.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, producto.getId_cliente());
+            statement.setString(2, producto.getNombre());
+
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+
+            rs.close();
+            statement.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            System.out.println("\nError al comprobar si existe el producto: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+        return existe;
     }
 
     public static List<Producto> obtenerProductos() {
@@ -58,7 +92,7 @@ public class ProductoService {
             conn.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al mostrar productos: " + e.getMessage());
+            System.out.println("\nError al mostrar productos: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -67,7 +101,7 @@ public class ProductoService {
 
     public static void establecerRelacionEquivalencia(Producto producto1, Producto producto2) {
         if (existeRelacionEquivalencia(producto1, producto2)) {
-            System.out.println("Ya existe una relación de equivalencia entre estos dos productos.");
+            System.out.println("\nYa existe una relación de equivalencia entre estos dos productos.");
             return;
         }
 
@@ -85,10 +119,10 @@ public class ProductoService {
             statement.close();
             conn.close();
 
-            System.out.println("Relación de equivalencia establecida correctamente");
+            System.out.println("\nRelación de equivalencia establecida correctamente");
 
         } catch (SQLException e) {
-            System.out.println("Error al establecer la relación de equivalencia: " + e.getMessage());
+            System.out.println("\nError al establecer la relación de equivalencia: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -124,7 +158,7 @@ public class ProductoService {
             conn.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al comprobar si existe la relación: " + e.getMessage());
+            System.out.println("\nError al comprobar si existe la relación: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -177,7 +211,7 @@ public class ProductoService {
             conn.close();
 
         } catch (SQLException e) {
-            System.out.println("Error al buscar productos equivalentes: " + e.getMessage());
+            System.out.println("\nError al buscar productos equivalentes: " + e.getMessage());
             e.printStackTrace();
         }
 
