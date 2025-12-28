@@ -74,8 +74,7 @@ public class Main {
     }
 
     private static void insertarProducto() {
-        System.out.println("\n\n\n\n\n");
-        System.out.println("Creación de producto");
+        System.out.println("\nCreación de producto");
         System.out.println("----------------------");
 
         System.out.print("ID del cliente: ");
@@ -127,6 +126,11 @@ public class Main {
     private static void establecerRelacionEquivalencia() {
         List<Producto> listaProductos = ProductoService.obtenerProductos();
 
+        if(listaProductos.size() < 2) {
+            System.out.println("Error: Todavía no hay suficientes productos para esta función");
+            return;
+        }
+
         mostrarProductos(listaProductos);
         System.out.println("\nElige 2 productos (introduce el número correspondiente):");
 
@@ -171,6 +175,11 @@ public class Main {
     private static void mostrarClientes() {
         List<Cliente> listaClientes = ClienteService.obtenerClientes();
 
+        if(listaClientes.size() == 0) {
+            System.out.println("Error: No existen clientes...");
+            return;
+        }
+
         System.out.println("\nLista de clientes");
         System.out.println("------------------");
         for (int i = 0; i < listaClientes.size(); i++) {
@@ -180,6 +189,11 @@ public class Main {
     }
 
     private static void mostrarProductos(List<Producto> listaProductos) {
+        if(listaProductos.size() == 0) {
+            System.out.println("Error: No existen productos...");
+            return;
+        }
+
         System.out.println("\nLista de productos");
         System.out.println("------------------");
         for (int i = 0; i < listaProductos.size(); i++) {
