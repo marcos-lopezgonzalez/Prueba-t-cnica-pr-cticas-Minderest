@@ -1,0 +1,6 @@
+com\marcos\pruebatecnica\services\ClienteService.class
+com\marcos\pruebatecnica\services\ProductoService.class
+com\marcos\pruebatecnica\Main.class
+com\marcos\pruebatecnica\models\BBDD.class
+com\marcos\pruebatecnica\models\Cliente.class
+com\marcos\pruebatecnica\models\Producto.class
